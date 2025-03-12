@@ -16,6 +16,11 @@ const RegistrationScreen = () => {
     Alert.alert('Registration Successful', 'Check console for details.');
   };
 
+  const handlePhoneChange = (text: string) => {
+    const numericValue = text.replace(/[^0-9]/g, '');
+    setPhone(numericValue);
+  };
+
   return (
     <View style={styles.container}>
       <Title text="Registration" />
@@ -23,13 +28,13 @@ const RegistrationScreen = () => {
         label="Name"
         value={name}
         onChangeText={setName}
-        keyboardType={undefined}
+        keyboardType="default"
       />
       <InputField
         label="Username"
         value={username}
         onChangeText={setUsername}
-        keyboardType={undefined}
+        keyboardType="default"
       />
       <InputField
         label="Email"
@@ -41,13 +46,14 @@ const RegistrationScreen = () => {
         label="Address"
         value={address}
         onChangeText={setAddress}
-        keyboardType={undefined}
+        keyboardType="default"
       />
       <InputField
         label="Phone Number"
         value={phone}
-        onChangeText={setPhone}
+        onChangeText={handlePhoneChange}
         keyboardType="numeric"
+        maxLength={15}
       />
       <RegisterButton onPress={handleRegister} />
     </View>
@@ -67,7 +73,7 @@ export const styles = StyleSheet.create({
     fontSize: 16,
   },
   button: {
-    backgroundColor: '#D633FF',
+    backgroundColor: '#0000ff',
     padding: 15,
     borderRadius: 10,
     alignItems: 'center',
