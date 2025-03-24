@@ -1,107 +1,108 @@
 import React from 'react';
-import {View, Text, Image, FlatList, StyleSheet} from 'react-native';
+import {View, Text, Image, ScrollView, StyleSheet} from 'react-native';
 
 const users = [
   {
     id: '1',
-    name: 'Bluth George',
+    first_name: 'George',
+    last_name: 'Bluth',
     email: 'george.bluth@reqres.in',
-    avatar: 'https://randomuser.me/api/portraits/men/1.jpg',
+    avatar: 'https://reqres.in/img/faces/1-image.jpg',
   },
   {
     id: '2',
-    name: 'Weaver Janet',
+    first_name: 'Janet',
+    last_name: 'Weaver',
     email: 'janet.weaver@reqres.in',
-    avatar: 'https://randomuser.me/api/portraits/women/2.jpg',
+    avatar: 'https://reqres.in/img/faces/2-image.jpg',
   },
   {
     id: '3',
-    name: 'Wong Emma',
+    first_name: 'Emma',
+    last_name: 'Wong',
     email: 'emma.wong@reqres.in',
-    avatar: 'https://randomuser.me/api/portraits/women/3.jpg',
+    avatar: 'https://reqres.in/img/faces/3-image.jpg',
   },
   {
     id: '4',
-    name: 'Holt Eve',
+    first_name: 'Eve',
+    last_name: 'Holt',
     email: 'eve.holt@reqres.in',
-    avatar: 'https://randomuser.me/api/portraits/men/4.jpg',
+    avatar: 'https://reqres.in/img/faces/4-image.jpg',
   },
   {
     id: '5',
-    name: 'Smith John',
-    email: 'john.smith@reqres.in',
-    avatar: 'https://randomuser.me/api/portraits/men/5.jpg',
+    first_name: 'Charles',
+    last_name: 'Morris',
+    email: 'charles.morris@reqres.in',
+    avatar: 'https://reqres.in/img/faces/5-image.jpg',
   },
   {
     id: '6',
-    name: 'Doe Jane',
-    email: 'jane.doe@reqres.in',
-    avatar: 'https://randomuser.me/api/portraits/women/6.jpg',
+    first_name: 'Tracey',
+    last_name: 'Ramos',
+    email: 'tracey.ramos@reqres.in',
+    avatar: 'https://reqres.in/img/faces/6-image.jpg',
   },
   {
     id: '7',
-    name: 'Brown Alex',
-    email: 'alex.brown@reqres.in',
-    avatar: 'https://randomuser.me/api/portraits/men/7.jpg',
+    first_name: 'Michael',
+    last_name: 'Lawson',
+    email: 'michael.lawson@reqres.in',
+    avatar: 'https://reqres.in/img/faces/7-image.jpg',
   },
   {
     id: '8',
-    name: 'Taylor Lisa',
-    email: 'lisa.taylor@reqres.in',
-    avatar: 'https://randomuser.me/api/portraits/women/8.jpg',
+    first_name: 'Lindsay',
+    last_name: 'Ferguson',
+    email: 'lindsay.ferguson@reqres.in',
+    avatar: 'https://reqres.in/img/faces/8-image.jpg',
   },
   {
     id: '9',
-    name: 'Davis Mark',
-    email: 'mark.davis@reqres.in',
-    avatar: 'https://randomuser.me/api/portraits/men/9.jpg',
+    first_name: 'Tobias',
+    last_name: 'Funke',
+    email: 'tobias.funke@reqres.in',
+    avatar: 'https://reqres.in/img/faces/9-image.jpg',
   },
   {
     id: '10',
-    name: 'Wilson Emily',
-    email: 'emily.wilson@reqres.in',
-    avatar: 'https://randomuser.me/api/portraits/women/10.jpg',
+    first_name: 'Byron',
+    last_name: 'Fields',
+    email: 'byron.fields@reqres.in',
+    avatar: 'https://reqres.in/img/faces/10-image.jpg',
   },
   {
     id: '11',
-    name: 'Anderson Tom',
-    email: 'tom.anderson@reqres.in',
-    avatar: 'https://randomuser.me/api/portraits/men/11.jpg',
+    first_name: 'George',
+    last_name: 'Edwards',
+    email: 'george.edwards@reqres.in',
+    avatar: 'https://reqres.in/img/faces/11-image.jpg',
   },
   {
     id: '12',
-    name: 'Martin Olivia',
-    email: 'olivia.martin@reqres.in',
-    avatar: 'https://randomuser.me/api/portraits/women/12.jpg',
+    first_name: 'Rachel',
+    last_name: 'Howell',
+    email: 'rachel.howell@reqres.in',
+    avatar: 'https://reqres.in/img/faces/12-image.jpg',
   },
 ];
 
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  avatar: string;
-}
-
-const UserItem = ({user}: {user: User}) => (
-  <View style={styles.card}>
-    <Image source={{uri: user.avatar}} style={styles.avatar} />
-    <View>
-      <Text style={styles.name}>{user.name}</Text>
-      <Text style={styles.email}>{user.email}</Text>
-    </View>
-  </View>
-);
-
 const UserList = () => {
   return (
-    <FlatList
-      data={users}
-      keyExtractor={item => item.id}
-      renderItem={({item}) => <UserItem user={item} />}
-      contentContainerStyle={styles.listContainer}
-      showsVerticalScrollIndicator={true}
-    />
+    <ScrollView contentContainerStyle={styles.listContainer}>
+      {users.map(user => (
+        <View key={user.id} style={styles.card}>
+          <Image source={{uri: user.avatar}} style={styles.avatar} />
+          <View>
+            <Text style={styles.name}>
+              {user.first_name} {user.last_name}
+            </Text>
+            <Text style={styles.email}>{user.email}</Text>
+          </View>
+        </View>
+      ))}
+    </ScrollView>
   );
 };
 
