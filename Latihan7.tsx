@@ -1,112 +1,75 @@
-import React from 'react';
-import {View, Text, Image, ScrollView, StyleSheet} from 'react-native';
+import React, {useState, useEffect, memo} from 'react';
+import {
+  View,
+  Text,
+  Image,
+  FlatList,
+  StyleSheet,
+  ActivityIndicator,
+  SafeAreaView,
+  StatusBar,
+} from 'react-native';
 
-const users = [
-  {
-    id: '1',
-    first_name: 'George',
-    last_name: 'Bluth',
-    email: 'george.bluth@reqres.in',
-    avatar: 'https://reqres.in/img/faces/1-image.jpg',
-  },
-  {
-    id: '2',
-    first_name: 'Janet',
-    last_name: 'Weaver',
-    email: 'janet.weaver@reqres.in',
-    avatar: 'https://reqres.in/img/faces/2-image.jpg',
-  },
-  {
-    id: '3',
-    first_name: 'Emma',
-    last_name: 'Wong',
-    email: 'emma.wong@reqres.in',
-    avatar: 'https://reqres.in/img/faces/3-image.jpg',
-  },
-  {
-    id: '4',
-    first_name: 'Eve',
-    last_name: 'Holt',
-    email: 'eve.holt@reqres.in',
-    avatar: 'https://reqres.in/img/faces/4-image.jpg',
-  },
-  {
-    id: '5',
-    first_name: 'Charles',
-    last_name: 'Morris',
-    email: 'charles.morris@reqres.in',
-    avatar: 'https://reqres.in/img/faces/5-image.jpg',
-  },
-  {
-    id: '6',
-    first_name: 'Tracey',
-    last_name: 'Ramos',
-    email: 'tracey.ramos@reqres.in',
-    avatar: 'https://reqres.in/img/faces/6-image.jpg',
-  },
-  {
-    id: '7',
-    first_name: 'Michael',
-    last_name: 'Lawson',
-    email: 'michael.lawson@reqres.in',
-    avatar: 'https://reqres.in/img/faces/7-image.jpg',
-  },
-  {
-    id: '8',
-    first_name: 'Lindsay',
-    last_name: 'Ferguson',
-    email: 'lindsay.ferguson@reqres.in',
-    avatar: 'https://reqres.in/img/faces/8-image.jpg',
-  },
-  {
-    id: '9',
-    first_name: 'Tobias',
-    last_name: 'Funke',
-    email: 'tobias.funke@reqres.in',
-    avatar: 'https://reqres.in/img/faces/9-image.jpg',
-  },
-  {
-    id: '10',
-    first_name: 'Byron',
-    last_name: 'Fields',
-    email: 'byron.fields@reqres.in',
-    avatar: 'https://reqres.in/img/faces/10-image.jpg',
-  },
-  {
-    id: '11',
-    first_name: 'George',
-    last_name: 'Edwards',
-    email: 'george.edwards@reqres.in',
-    avatar: 'https://reqres.in/img/faces/11-image.jpg',
-  },
-  {
-    id: '12',
-    first_name: 'Rachel',
-    last_name: 'Howell',
-    email: 'rachel.howell@reqres.in',
-    avatar: 'https://reqres.in/img/faces/12-image.jpg',
-  },
-];
+interface User {
+  id: number;
+  first_name: string;
+  last_name: string;
+  email: string;
+  avatar: string;
+}
+
+const UserCard = memo(({user}: {user: User}) => (
+  <View style={styles.card}>
+    <Image source={{uri: user.avatar}} style={styles.avatar} />
+    <View>
+      <Text style={styles.name}>
+        {user.first_name} {user.last_name}
+      </Text>
+      <Text style={styles.email}>{user.email}</Text>
+    </View>
+  </View>
+));
 
 const UserList = () => {
+  const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('https://reqres.in/api/users?per_page=12')
+      .then(response => response.json())
+      .then(data => {
+        setUsers(data.data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error(error);
+        setLoading(false);
+      });
+  }, []);
+
   return (
-    <ScrollView contentContainerStyle={styles.listContainer}>
-      {users.map(user => (
-        <View key={user.id} style={styles.card}>
-          <Image source={{uri: user.avatar}} style={styles.avatar} />
-          <View>
-            <Text style={styles.name}>
-              {user.first_name} {user.last_name}
-            </Text>
-            <Text style={styles.email}>{user.email}</Text>
-          </View>
-        </View>
-      ))}
-    </ScrollView>
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="dark-content" />
+      {loading ? (
+        <ActivityIndicator size="large" color="#0000ff" style={styles.loader} />
+      ) : (
+        <FlatList
+          data={users}
+          keyExtractor={item => item.id.toString()}
+          renderItem={({item}) => <UserCard user={item} />}
+          contentContainerStyle={styles.listContainer}
+          showsVerticalScrollIndicator={false}
+        />
+      )}
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f5f5f5',
+  },
   listContainer: {
     padding: 16,
   },
@@ -135,6 +98,11 @@ const styles = StyleSheet.create({
   email: {
     fontSize: 14,
     color: 'gray',
+  },
+  loader: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
