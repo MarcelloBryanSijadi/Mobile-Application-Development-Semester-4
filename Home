@@ -1,0 +1,72 @@
+import React from 'react';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+
+const PaymobileScreen = () => {
+  return (
+    <View style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <View>
+          <Text style={styles.title}>Paymobile</Text>
+          <Text style={styles.subTitle}>Full Name</Text>
+        </View>
+        <Image
+          source={{ uri: 'https://randomuser.me/api/portraits/women/44.jpg' }} // Placeholder image
+          style={styles.avatar}
+        />
+      </View>
+
+      {/* Balance Box */}
+      <View style={styles.balanceBox}>
+        <Text style={styles.balanceLabel}>Balance</Text>
+        <Text style={styles.balanceAmount}>Rp. 30,000,000,00</Text>
+      </View>
+
+      {/* Buttons */}
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.actionButton}>
+          <Text style={styles.buttonText}>Send</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.actionButton}>
+          <Text style={styles.buttonText}>Request</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Footer Navigation */}
+      <View style={styles.footer}>
+        <TouchableOpacity>
+          <Ionicons name="add-circle" size={32} color="#0096FF" />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Ionicons name="menu" size={28} color="#0096FF" />
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+};
+
+export default PaymobileScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    justifyContent: 'space-between',
+    backgroundColor: '#fff',
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: 'bold',
+  },
+  subTitle: {
+    fontSize: 14,
+    color: '#555',
+  },
+  avatar: {
+    width
